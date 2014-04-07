@@ -73,6 +73,3 @@ An Example, also shown in `.build/config.py`:
             LIBRARY_FOLDER / "events"
         ]
     }
-
-
-<!-- vim:ft=markdown >

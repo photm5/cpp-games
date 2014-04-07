@@ -82,20 +82,24 @@ To try if compiling works, you can follow this example:
 
 We now need to add it in the dependencies tree in `.build/config.py`, change it to:
 
-    DEPENDENCIES = {
-        APPLICATION_FOLDER / "hello_world" : []
-    }
+``` python
+DEPENDENCIES = {
+    APPLICATION_FOLDER / "hello_world" : []
+}
+```
 
 Yes, I know, `hello_world` has no dependencies,
 but this step helps you to not forget adding dependencies.
 
 Now edit the file `application/hello_world/src/main.cpp`:
     
-    #include <iostream>
+``` c++
+#include <iostream>
 
-    int main () {
-        std::cout << "Hello World!" << std::endl;
-    }
+int main () {
+    std::cout << "Hello World!" << std::endl;
+}
+```
 
 And run these commands to compile and run it:
 

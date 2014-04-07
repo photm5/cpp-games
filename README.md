@@ -119,15 +119,25 @@ In there, you need to change the dependency tree,
 so it resembles the dependencies between your components.
 An Example, also shown in `.build/config.py`:
 
-    DEPENDENCIES = {
-        APPLICATION_FOLDER / "game" : [
-            SYSTEM_FOLDER / "engine",
-            LIBRARY_FOLDER / "events"
-        ],
-        SYSTEM_FOLDER / "game" : [
-            LIBRARY_FOLDER / "events"
-        ]
-    }
+``` python
+DEPENDENCIES = {
+    APPLICATION_FOLDER / "game" : [
+        SYSTEM_FOLDER / "engine",
+        LIBRARY_FOLDER / "events"
+    ],
+    SYSTEM_FOLDER / "game" : [
+        LIBRARY_FOLDER / "events"
+    ]
+}
+```
 
 You can create an overlay script at `.build/overlay.py`.
 In there, you can re-write the build setup scripts.
+
+For example, to print the commands that would be executed instead of running them,
+put this in your `.build/overlay.py` file:
+
+``` python
+def run_command (command):
+    print("not running command: " + command)
+```

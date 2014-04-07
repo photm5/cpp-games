@@ -38,7 +38,7 @@ but you can wrap it for use in an IDE. (I didn't try it yet :D)
 
 To try out if it works, run the command
 
-    python build.py @help
+    $ python build.py @help
 
 The output should look like this:
 

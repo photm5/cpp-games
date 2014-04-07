@@ -1,5 +1,7 @@
 # C++ Project Template
 
+## Directory Layout
+
 This Repository is a template for C++ repositories that I want to make.
 The directory layout is made to contain multiple applications in one repository,
 so they can share library code.
@@ -30,6 +32,8 @@ Of course, the components can depend on each other:
 + Components of the `library` layer
   can depend on components of the `library` layer.
 
+## Build setup
+
 To support the layout, this repository contains a build setup
 (written in python) that can handle it.
 
@@ -39,9 +43,6 @@ but you can wrap it for use in an IDE. (I didn't try it yet :D)
 To try out if it works, run the command
 
     $ python build.py @help
-
-The output should look like this:
-
     usage: python build.py <target>
     <target> can be the name of an application you want to compile,
     or one of these special targets starting with @:
@@ -59,6 +60,60 @@ The output should look like this:
     this is useful because you can add it to your .gitignore file.
 
 I hope it is self explanatory :D
+
+## Compiling
+
+The script uses g++ as a default, but you can configure it to your needs in `.build/config.py`
+To try if compiling works, you can follow this example:
+
+    $ python build.py @create_application hello_world
+    running command: mkdir -p application/hello_world/src
+    running command: mkdir -p application/hello_world/inc
+    running command: mkdir -p application/hello_world/bin
+    Don't forget to add the component to the dependencies tree, even if it does not have any.
+    $ ls * */*
+    build.py  README.md
+
+    application:
+    hello_world
+
+    application/hello_world:
+    bin  inc  src
+
+We now need to add it in the dependencies tree in `.build/config.py`, change it to:
+
+    DEPENDENCIES = {
+        APPLICATION_FOLDER / "hello_world" : []
+    }
+
+Yes, I know, `hello_world` has no dependencies,
+but this step helps you to not forget adding dependencies.
+
+Now edit the file `application/hello_world/src/main.cpp`:
+    
+    #include <iostream>
+
+    int main () {
+        std::cout << "Hello World!" << std::endl;
+    }
+
+And run these commands to compile and run it:
+
+    $ python build.py hello_world
+    running command: g++ application/hello_world/src/main.cpp -I. -Iapplication/hello_world/inc -o application/hello_world/bin/executable
+    $ python build.py @run hello_world
+    running command: ./application/hello_world/bin/executable
+    Hello World!
+
+Or just this single one:
+    
+    $ python build.py @build_and_run hello_world
+    running command: g++ application/hello_world/src/main.cpp -I. -Iapplication/hello_world/inc -o application/hello_world/bin/executable
+    running command: ./application/hello_world/bin/executable
+    Hello World!
+
+## Configuration
+
 You can modify some configuration settings in `.build/config.py`.
 In there, you need to change the dependency tree,
 so it resembles the dependencies between your components.
@@ -73,3 +128,6 @@ An Example, also shown in `.build/config.py`:
             LIBRARY_FOLDER / "events"
         ]
     }
+
+You can create an overlay script at `.build/overlay.py`.
+In there, you can re-write the build setup scripts.

@@ -30,9 +30,11 @@ ADD_OWN_INCLUDEPATH = True
 #     ]
 # }
 DEPENDENCIES = {
+    APPLICATION_FOLDER / "sfml" : []
 }
 
 CUSTOM_OPTIONS = {
+    APPLICATION_FOLDER / "sfml" : "-lsfml-graphics -lsfml-window -lsfml-system"
 }
 
 def run_command (command):

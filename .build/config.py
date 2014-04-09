@@ -32,20 +32,23 @@ ADD_OWN_INCLUDEPATH = True
 DEPENDENCIES = {
 }
 
+CUSTOM_OPTIONS = {
+}
+
 def run_command (command):
     print("running command: " + command)
     return os.system(command)
 
-def compiled_object_factory (source_path, output_path, includes):
+def compiled_object_factory (source_path, output_path, extra_options):
     def compile_object (sources, output_path):
-        run_command("g++ " + sources + " " + includes + " -c -o " + output_path)
+        run_command("g++ " + sources + " " + extra_options + " -c -o " + output_path)
 
     source_targets = [ Target(source_path) ]
     return CompiledObject(source_targets, output_path, compile_object)
 
-def compiled_executable_factory (source_targets, output_path, includes):
+def compiled_executable_factory (source_targets, output_path, extra_options):
     def compile_executable (sources, output_path):
-        run_command("g++ " + sources + " " + includes + " -o " + output_path)
+        run_command("g++ " + sources + " " + extra_options + " -o " + output_path)
 
     return CompiledObject(source_targets, output_path, compile_executable)
 

@@ -29,6 +29,20 @@ def get_dependencies (component_root_folder):
         print ("component path: " + str(component_root_folder))
         sys.exit(1)
 
+def get_custom_options (component_root_folder):
+    global CUSTOM_OPTIONS
+
+    if not component_root_folder.exists():
+        print ("A component is targeted but doesn't exist!")
+        print ("Maybe the dependency tree is incorrect?")
+        print ("component path: " + str(component_root_folder))
+        sys.exit(1)
+
+    try:
+        return CUSTOM_OPTIONS[component_root_folder]
+    except KeyError:
+        return ""
+
 class Component:
     def __init__ (self, component_root_folder):
         global SOURCE_FOLDER
@@ -60,13 +74,18 @@ class Component:
         for source_file_path in list(source_folder.glob("**/*.cpp")):
             if self.is_application and source_file_path.name == MAIN_SOURCE_NAME:
                 executable_file_path = pathlib.PurePath(str(self.root_folder / BINARY_FOLDER) + "/" + MAIN_EXEC_NAME)
+
                 source_targets = [Target(source_file_path)]
                 for component in self.dependencies + [self]:
                     source_targets.extend(component.targets)
-                self.targets.append(compiled_executable_factory(source_targets, executable_file_path, self.include_options))
+
+                extra_options = self.include_options + " " + get_custom_options(self.root_folder)
+                self.targets.append(compiled_executable_factory(source_targets, executable_file_path, extra_options))
             else:
                 binary_file_path = pathlib.PurePath(str(self.root_folder / BINARY_FOLDER) + "/" + source_file_path.stem + ".o")
-                self.targets.append(compiled_object_factory(source_file_path, binary_file_path, self.include_options))
+
+                extra_options = self.include_options + " " + get_custom_options(self.root_folder)
+                self.targets.append(compiled_object_factory(source_file_path, binary_file_path, extra_options))
 
     def check_mustbemade (self):
         for dependency in self.dependencies:

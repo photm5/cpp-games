@@ -1,0 +1,5 @@
+application/*/bin/executable
+*.o
+.build/__pycache__/*
+
+.clang_complete

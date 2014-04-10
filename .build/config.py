@@ -30,7 +30,8 @@ ADD_OWN_INCLUDEPATH = True
 #     ]
 # }
 DEPENDENCIES = {
-    APPLICATION_FOLDER / "sfml" : []
+    APPLICATION_FOLDER / "sfml" : [],
+    LIBRARY_FOLDER / "events" : []
 }
 
 CUSTOM_OPTIONS = {

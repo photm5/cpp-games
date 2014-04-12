@@ -42,7 +42,7 @@ def run_command (command):
 
 def compiled_object_factory (source_path, output_path, extra_options):
     def compile_object (sources, output_path):
-        exit_code = run_command("g++ " + sources + " " + extra_options + " -c -o " + output_path)
+        exit_code = run_command("g++ -std=c++11 " + sources + " " + extra_options + " -c -o " + output_path)
         if exit_code != 0:
             sys.exit(exit_code)
 
@@ -51,7 +51,7 @@ def compiled_object_factory (source_path, output_path, extra_options):
 
 def compiled_executable_factory (source_targets, output_path, extra_options):
     def compile_executable (sources, output_path):
-        exit_code = run_command("g++ " + sources + " " + extra_options + " -o " + output_path)
+        exit_code = run_command("g++ -std=c++11 " + sources + " " + extra_options + " -o " + output_path)
         if exit_code != 0:
             sys.exit(exit_code)
 

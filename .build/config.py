@@ -1,4 +1,5 @@
 import pathlib
+import sys
 import os
 
 from base_classes import *
@@ -44,14 +45,18 @@ def run_command (command):
 
 def compiled_object_factory (source_path, output_path, extra_options):
     def compile_object (sources, output_path):
-        run_command("g++ " + sources + " " + extra_options + " -c -o " + output_path)
+        exit_code = run_command("g++ -std=c++11 " + sources + " " + extra_options + " -c -o " + output_path)
+        if exit_code != 0:
+            sys.exit(exit_code)
 
     source_targets = [ Target(source_path) ]
     return CompiledObject(source_targets, output_path, compile_object)
 
 def compiled_executable_factory (source_targets, output_path, extra_options):
     def compile_executable (sources, output_path):
-        run_command("g++ " + sources + " " + extra_options + " -o " + output_path)
+        exit_code = run_command("g++ -std=c++11 " + sources + " " + extra_options + " -o " + output_path)
+        if exit_code != 0:
+            sys.exit(exit_code)
 
     return CompiledObject(source_targets, output_path, compile_executable)
 

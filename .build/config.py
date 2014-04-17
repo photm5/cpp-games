@@ -49,7 +49,8 @@ DEPENDENCIES = {
 }
 
 CUSTOM_OPTIONS = {
-    APPLICATION_FOLDER / "sfml" : "-lsfml-graphics -lsfml-window -lsfml-system"
+    APPLICATION_FOLDER / "sfml" : "-lsfml-graphics -lsfml-window -lsfml-system",
+    APPLICATION_FOLDER / "packman" : "-lsfml-graphics -lsfml-window -lsfml-system"
 }
 
 def run_command (command):

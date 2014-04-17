@@ -32,6 +32,19 @@ ADD_OWN_INCLUDEPATH = True
 # }
 DEPENDENCIES = {
     APPLICATION_FOLDER / "sfml" : [],
+    APPLICATION_FOLDER / "packman" : [
+        SYSTEM_FOLDER / "gamelogic",
+        SYSTEM_FOLDER / "GUI",
+        LIBRARY_FOLDER / "events"
+    ],
+
+    SYSTEM_FOLDER / "gamelogic" : [
+        LIBRARY_FOLDER / "events"
+    ],
+    SYSTEM_FOLDER / "GUI" : [
+        LIBRARY_FOLDER / "events"
+    ],
+
     LIBRARY_FOLDER / "events" : []
 }
 

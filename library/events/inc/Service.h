@@ -3,7 +3,7 @@
 
 #include "Listener.h"
 
-namespace event {
+namespace events {
     template < typename Event_type >
     class Service {
         public:

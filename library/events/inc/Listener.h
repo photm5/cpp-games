@@ -1,7 +1,7 @@
 #ifndef GUARD_EVENT_LISTENER
 #define GUARD_EVENT_LISTENER
 
-namespace event {
+namespace events {
     template < typename Event_type >
     class Listener {
         public:

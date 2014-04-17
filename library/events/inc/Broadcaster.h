@@ -7,7 +7,7 @@
 #include "Listener.h"
 #include "Service.h"
 
-namespace event {
+namespace events {
     template < typename Event_type >
     class Broadcaster : public Listener<Event_type>, public Service<Event_type> {
         public:

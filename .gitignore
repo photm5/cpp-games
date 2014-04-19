@@ -3,3 +3,5 @@ application/*/bin/executable
 .build/__pycache__/*
 
 .clang_complete
+cscope.out
+makefile

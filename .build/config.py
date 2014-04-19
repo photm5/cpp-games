@@ -45,7 +45,8 @@ DEPENDENCIES = {
         LIBRARY_FOLDER / "events"
     ],
 
-    LIBRARY_FOLDER / "events" : []
+    LIBRARY_FOLDER / "events" : [],
+    LIBRARY_FOLDER / "geom2d" : []
 }
 
 CUSTOM_OPTIONS = {

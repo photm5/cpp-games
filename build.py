@@ -70,22 +70,29 @@ class Component:
 
         self.include_options = " ".join(include_folders)
 
+        has_main = False
+
         source_folder = self.root_folder / SOURCE_FOLDER
         for source_file_path in list(source_folder.glob("**/*.cpp")):
-            if self.is_application and source_file_path.name == MAIN_SOURCE_NAME:
-                executable_file_path = pathlib.PurePath(str(self.root_folder / BINARY_FOLDER) + "/" + MAIN_EXEC_NAME)
-
-                source_targets = [Target(source_file_path)]
-                for component in self.dependencies + [self]:
-                    source_targets.extend(component.targets)
-
-                extra_options = self.include_options + " " + get_custom_options(self.root_folder)
-                self.targets.append(compiled_executable_factory(source_targets, executable_file_path, extra_options))
-            else:
+            if not (self.is_application and source_file_path.name == MAIN_SOURCE_NAME):
                 binary_file_path = pathlib.PurePath(str(self.root_folder / BINARY_FOLDER) + "/" + source_file_path.stem + ".o")
 
                 extra_options = self.include_options + " " + get_custom_options(self.root_folder)
                 self.targets.append(compiled_object_factory(source_file_path, binary_file_path, extra_options))
+            else:
+                has_main = True
+
+        if has_main:
+            source_file_path = source_folder / MAIN_SOURCE_NAME
+            print(source_file_path)
+            executable_file_path = pathlib.PurePath(str(self.root_folder / BINARY_FOLDER) + "/" + MAIN_EXEC_NAME)
+
+            source_targets = [Target(source_file_path)]
+            for component in self.dependencies + [self]:
+                source_targets.extend(component.targets)
+
+            extra_options = self.include_options + " " + get_custom_options(self.root_folder)
+            self.targets.append(compiled_executable_factory(source_targets, executable_file_path, extra_options))
 
     def check_mustbemade (self):
         for dependency in self.dependencies:

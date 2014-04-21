@@ -9,7 +9,7 @@ namespace events {
         public:
             virtual ~Emitter<Event_type> () = default;
 
-            virtual void set_output (Listener<Event_type>& listener) = 0;
+            virtual void set_output (Listener<Event_type>* listener) = 0;
     };
 }
 

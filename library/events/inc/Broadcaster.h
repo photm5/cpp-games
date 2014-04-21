@@ -13,8 +13,8 @@ namespace events {
         public:
             virtual ~Broadcaster<Event_type> () = default;
 
-            virtual void subscribe (Listener<Event_type>& listener);
-            virtual void de_subscribe (Listener<Event_type>& listener);
+            virtual void subscribe (Listener<Event_type>* listener);
+            virtual void de_subscribe (Listener<Event_type>* listener);
 
             virtual void handle_event (Event_type& event);
 
@@ -23,13 +23,13 @@ namespace events {
     };
 
     template < typename T >
-    void Broadcaster<T>::subscribe (Listener<T>& listener) {
-        subscriptions.push_back(&listener);
+    void Broadcaster<T>::subscribe (Listener<T>* listener) {
+        subscriptions.push_back(listener);
     }
 
     template < typename T >
-    void Broadcaster<T>::de_subscribe (Listener<T>& listener) {
-        subscriptions.erase(std::remove(subscriptions.begin(), subscriptions.end(), &listener), subscriptions.end());
+    void Broadcaster<T>::de_subscribe (Listener<T>* listener) {
+        subscriptions.erase(std::remove(subscriptions.begin(), subscriptions.end(), listener), subscriptions.end());
     }
 
     template < typename T >

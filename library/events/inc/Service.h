@@ -9,8 +9,8 @@ namespace events {
         public:
             virtual ~Service<Event_type> () = default;
 
-            virtual void subscribe (Listener<Event_type>& listener) = 0;
-            virtual void de_subscribe (Listener<Event_type>& listener) = 0;
+            virtual void subscribe (Listener<Event_type>* listener) = 0;
+            virtual void de_subscribe (Listener<Event_type>* listener) = 0;
     };
 }
 

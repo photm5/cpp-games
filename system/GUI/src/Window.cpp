@@ -26,10 +26,10 @@ void Window::event_loop () {
     }
 }
 
-void Window::set_output (events::Listener<sf::Event>& sfml_event_listener) {
-    this->sfml_event_listener = &sfml_event_listener;
+void Window::set_output (events::Listener<sf::Event>* sfml_event_listener) {
+    this->sfml_event_listener = sfml_event_listener;
 }
 
-void Window::set_output (events::Listener<Draw_event>& draw_event_listener) {
-    this->draw_event_listener = &draw_event_listener;
+void Window::set_output (events::Listener<Draw_event>* draw_event_listener) {
+    this->draw_event_listener = draw_event_listener;
 }

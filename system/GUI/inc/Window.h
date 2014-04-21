@@ -20,8 +20,8 @@ namespace GUI {
 
             void event_loop ();
 
-            void set_output (events::Listener<sf::Event>& sfml_event_listener);
-            void set_output (events::Listener<Draw_event>& draw_event_listener);
+            void set_output (events::Listener<sf::Event>* sfml_event_listener);
+            void set_output (events::Listener<Draw_event>* draw_event_listener);
 
         private:
             sf::RenderWindow& window;

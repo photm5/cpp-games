@@ -56,6 +56,8 @@ namespace gamelogic {
             Actor* get_actor_at (geom2d::Vector<int> position);
             Powerup* get_powerup_at (geom2d::Vector<int> position);
 
+            bool collisions (Actor_movement_event& move);
+
     };
 
 }

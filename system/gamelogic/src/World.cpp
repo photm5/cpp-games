@@ -12,6 +12,10 @@ void World::spawn_actor (std::shared_ptr<Actor> actor) {
     powerup_broadcaster.subscribe(actor.get());
     actor_collision_broadcaster.subscribe(actor.get());
     actor_movement_broadcaster.subscribe(actor.get());
+    Actor_movement_event move {actor.get(), actor->get_position()};
+    if (collisions(move)) {
+        kill_actor(actor.get());
+    }
 }
 
 void World::spawn_powerup (std::shared_ptr<Powerup> powerup) {
@@ -22,29 +26,15 @@ void World::spawn_powerup (std::shared_ptr<Powerup> powerup) {
 void World::kill_actor (const Actor* actor) {
     actors.erase(std::remove_if(actors.begin(), actors.end(), 
                 [&](std::shared_ptr<Actor> a){return a.get() == actor;}), actors.end());
+    next_turn_broadcaster.de_subscribe(actor);
+    powerup_broadcaster.de_subscribe(actor);
+    actor_collision_broadcaster.de_subscribe(actor);
+    actor_movement_broadcaster.de_subscribe(actor);
 }
 
 
 void World::handle_event (Actor_movement_event& event) {
-    Actor* other_actor = get_actor_at(event.get_new_position());
-    if (other_actor != nullptr) {
-        Actor_collision_event collision(event.get_actor(), other_actor);
-        actor_collision_broadcaster.handle_event(collision);
-
-        other_actor = get_actor_at(event.get_new_position());
-    }
-
-    Powerup* powerup = get_powerup_at(event.get_new_position());
-    if (powerup != nullptr) {
-        Powerup_event powerup_event(event.get_actor(), powerup);
-        powerup_broadcaster.handle_event(powerup_event);
-
-        powerup = get_powerup_at(event.get_new_position());
-    }
-
-    Tile* tile = level.get_tile_at(event.get_new_position());
-
-    if (other_actor == nullptr && powerup == nullptr && tile == nullptr) {
+    if (!collisions(event)) {
         actor_movement_broadcaster.handle_event(event);
     }
 }
@@ -93,23 +83,26 @@ Powerup* World::get_powerup_at (geom2d::Vector<int> position) {
     return at->get();
 }
 
+bool World::collisions(gamelogic::Actor_movement_event& move) {
+    Actor* other_actor = get_actor_at(move.get_new_position());
+    if (other_actor != nullptr) {
+        Actor_collision_event collision(move.get_actor(), other_actor);
+        actor_collision_broadcaster.handle_event(collision);
 
-// Commented out functions
-/*
-Entity& World::get_entity_at (geom2d::Vector<int> position) {
-    auto at = std::find_if (entities.begin(), entities.end(),
-            [&](std::shared_ptr<Entity> e){return e->get_position() == position;});
-    return **at;
+        other_actor = get_actor_at(move.get_new_position());
+    }
+
+    Powerup* powerup = get_powerup_at(move.get_new_position());
+    if (powerup != nullptr) {
+        Powerup_event powerup_event(move.get_actor(), powerup);
+        powerup_broadcaster.handle_event(powerup_event);
+
+        powerup = get_powerup_at(move.get_new_position());
+    }
+
+    Tile* tile = level.get_tile_at(move.get_new_position());
+
+    return other_actor != nullptr
+        || powerup     != nullptr
+        || tile        != nullptr;
 }
-*/
-/*
-void World::kill_entity (Entity& entity) {
-    entities.erase(std::remove_if(entities.begin(), entities.end(), 
-                [&](std::shared_ptr<Entity> e){return *e == entity;}), entities.end());
-}
-*/
-/*
-void World::spawn_entity (std::shared_ptr<Entity> entity) {
-    entities.push_back(entity);
-}
-*/

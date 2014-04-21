@@ -11,7 +11,9 @@ namespace geom2d {
 
             bool operator== (const Vector<T>& other);
             bool operator!= (const Vector<T>& other);
+
             Vector<T> operator+ (const Vector<T>& other);
+            void operator+= (const Vector<T>& other);
 
             T get_x () const {
                 return x;
@@ -44,6 +46,12 @@ namespace geom2d {
     template<typename T>
     Vector<T> Vector<T>::operator+ (const Vector<T>& other) {
         return Vector<T> (get_x() + other.get_x(), get_y() + other.get_y());
+    }
+
+    template<typename T>
+    void Vector<T>::operator+= (const Vector<T>& other) {
+        x += other.get_x();
+        y += other.get_y();
     }
 
 }

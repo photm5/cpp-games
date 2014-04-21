@@ -7,15 +7,15 @@ World::World(Level level) : level(level){
 
 
 void World::spawn_actor (std::shared_ptr<Actor> actor) {
-    actors.push_back(actor);
     next_turn_broadcaster.subscribe(actor.get());
     powerup_broadcaster.subscribe(actor.get());
     actor_collision_broadcaster.subscribe(actor.get());
     actor_movement_broadcaster.subscribe(actor.get());
     Actor_movement_event move {actor.get(), actor->get_position()};
-    if (collisions(move)) {
+    if (collisions(move))
         kill_actor(actor.get());
-    }
+    else
+        actors.push_back(actor);
 }
 
 void World::spawn_powerup (std::shared_ptr<Powerup> powerup) {

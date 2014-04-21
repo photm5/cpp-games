@@ -10,7 +10,7 @@ namespace events {
             virtual ~Service<Event_type> () = default;
 
             virtual void subscribe (Listener<Event_type>* listener) = 0;
-            virtual void de_subscribe (Listener<Event_type>* listener) = 0;
+            virtual void de_subscribe (const Listener<Event_type>* listener) = 0;
     };
 }
 

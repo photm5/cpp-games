@@ -14,7 +14,7 @@ namespace events {
             virtual ~Broadcaster<Event_type> () = default;
 
             virtual void subscribe (Listener<Event_type>* listener);
-            virtual void de_subscribe (Listener<Event_type>* listener);
+            virtual void de_subscribe (const Listener<Event_type>* listener);
 
             virtual void handle_event (Event_type& event);
 
@@ -28,7 +28,7 @@ namespace events {
     }
 
     template < typename T >
-    void Broadcaster<T>::de_subscribe (Listener<T>* listener) {
+    void Broadcaster<T>::de_subscribe (const Listener<T>* listener) {
         subscriptions.erase(std::remove(subscriptions.begin(), subscriptions.end(), listener), subscriptions.end());
     }
 
@@ -39,6 +39,5 @@ namespace events {
     }
 
 }
-
 
 #endif // GUARD_EVENT_BROADCASTER

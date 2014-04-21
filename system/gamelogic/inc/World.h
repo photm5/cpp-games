@@ -32,6 +32,7 @@ namespace gamelogic {
             void spawn_powerup (std::shared_ptr<Powerup> powerup);
 
             void kill_actor (const Actor* actor);
+            void kill_powerup (const Powerup* powerup);
 
             void handle_event (Actor_movement_event& event);
             void next_turn ();

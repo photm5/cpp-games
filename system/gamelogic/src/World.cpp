@@ -33,6 +33,12 @@ void World::kill_actor (const Actor* actor) {
 }
 
 
+void World::kill_powerup (const Powerup* powerup) {
+    powerups.erase(std::remove_if(powerups.begin(), powerups.end(), 
+                [&](std::shared_ptr<Powerup> p){return p.get() == powerup;}), powerups.end());
+    powerup_broadcaster.de_subscribe(powerup);
+}
+
 void World::handle_event (Actor_movement_event& event) {
     if (!collisions(event)) {
         actor_movement_broadcaster.handle_event(event);

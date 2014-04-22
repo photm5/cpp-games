@@ -109,6 +109,6 @@ bool World::collisions(gamelogic::Actor_movement_event& move) {
     Tile* tile = level.get_tile_at(move.get_new_position());
 
     return other_actor != nullptr
-        || powerup     != nullptr
+        || powerup     != nullptr && !(powerup->has_property("no obstruct"))
         || tile        != nullptr;
 }

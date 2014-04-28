@@ -2,7 +2,6 @@
 #define GUARD_GAMELOGIC_WORLD
 
 #include <vector>
-#include <memory>
 #include <algorithm>
 
 #include "library/events/inc/Listener.h"
@@ -28,8 +27,8 @@ namespace gamelogic {
             ~World () = default;
 
 
-            void spawn_actor (std::shared_ptr<Actor> actor);
-            void spawn_powerup (std::shared_ptr<Powerup> powerup);
+            void spawn_actor (Actor* actor);
+            void spawn_powerup (Powerup* powerup);
 
             void kill_actor (const Actor* actor);
             void kill_powerup (const Powerup* powerup);
@@ -46,8 +45,8 @@ namespace gamelogic {
 
         private:
             Level level;
-            std::vector<std::shared_ptr<Actor>> actors;
-            std::vector<std::shared_ptr<Powerup>> powerups;
+            std::vector<Actor*> actors;
+            std::vector<Powerup*> powerups;
 
             events::Broadcaster<Next_turn_event> next_turn_broadcaster;
             events::Broadcaster<Powerup_event> powerup_broadcaster;

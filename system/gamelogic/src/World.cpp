@@ -6,26 +6,26 @@ World::World(Level level) : level(level){
 }
 
 
-void World::spawn_actor (std::shared_ptr<Actor> actor) {
-    next_turn_broadcaster.subscribe(actor.get());
-    powerup_broadcaster.subscribe(actor.get());
-    actor_collision_broadcaster.subscribe(actor.get());
-    actor_movement_broadcaster.subscribe(actor.get());
-    Actor_movement_event move {actor.get(), actor->get_position()};
+void World::spawn_actor (Actor* actor) {
+    next_turn_broadcaster.subscribe(actor);
+    powerup_broadcaster.subscribe(actor);
+    actor_collision_broadcaster.subscribe(actor);
+    actor_movement_broadcaster.subscribe(actor);
+    Actor_movement_event move {actor, actor->get_position()};
     if (collisions(move))
-        kill_actor(actor.get());
+        kill_actor(actor);
     else
         actors.push_back(actor);
 }
 
-void World::spawn_powerup (std::shared_ptr<Powerup> powerup) {
+void World::spawn_powerup (Powerup* powerup) {
     powerups.push_back(powerup);
-    powerup_broadcaster.subscribe(powerup.get());
+    powerup_broadcaster.subscribe(powerup);
 }
 
 void World::kill_actor (const Actor* actor) {
     actors.erase(std::remove_if(actors.begin(), actors.end(), 
-                [&](std::shared_ptr<Actor> a){return a.get() == actor;}), actors.end());
+                [&](Actor* a){return a == actor;}), actors.end());
     next_turn_broadcaster.de_subscribe(actor);
     powerup_broadcaster.de_subscribe(actor);
     actor_collision_broadcaster.de_subscribe(actor);
@@ -35,7 +35,7 @@ void World::kill_actor (const Actor* actor) {
 
 void World::kill_powerup (const Powerup* powerup) {
     powerups.erase(std::remove_if(powerups.begin(), powerups.end(), 
-                [&](std::shared_ptr<Powerup> p){return p.get() == powerup;}), powerups.end());
+                [&](Powerup* p){return p == powerup;}), powerups.end());
     powerup_broadcaster.de_subscribe(powerup);
 }
 
@@ -75,18 +75,18 @@ const Level& World::get_level () const {
 // private functions
 Actor* World::get_actor_at (geom2d::Vector<int> position) {
     auto at = std::find_if (actors.begin(), actors.end(),
-            [&](std::shared_ptr<Actor> a){return a->get_position() == position;});
+            [&](Actor* a){return a->get_position() == position;});
     if (at == actors.end())
         return nullptr;
-    return at->get();
+    return *at;
 }
 
 Powerup* World::get_powerup_at (geom2d::Vector<int> position) {
     auto at = std::find_if (powerups.begin(), powerups.end(),
-            [&](std::shared_ptr<Powerup> p){return p->get_position() == position;});
+            [&](Powerup* p){return p->get_position() == position;});
     if (at == powerups.end())
         return nullptr;
-    return at->get();
+    return *at;
 }
 
 bool World::collisions(gamelogic::Actor_movement_event& move) {

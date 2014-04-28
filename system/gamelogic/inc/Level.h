@@ -17,12 +17,12 @@ namespace gamelogic {
             Level () = default;
             ~Level () = default;
 
-            void set_tile (std::shared_ptr<Tile> tile);
+            void set_tile (Tile* tile);
 
             Tile* get_tile_at (geom2d::Vector<int> position);
 
         private:
-            std::vector<std::shared_ptr<Tile>> tiles;
+            std::vector<Tile*> tiles;
 
             void remove_tile_at (geom2d::Vector<int> position);
 

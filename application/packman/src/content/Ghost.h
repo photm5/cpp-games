@@ -1,6 +1,8 @@
 #ifndef GUARD_PACKMAN_GHOST
 #define GUARD_PACKMAN_GHOST
 
+#include <cstdlib>
+
 #include "system/gamelogic/inc/Actor.h"
 #include "system/gamelogic/inc/Powerup.h"
 #include "system/gamelogic/inc/World.h"

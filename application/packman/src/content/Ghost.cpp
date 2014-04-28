@@ -1,4 +1,17 @@
-#include "Ghost.h"
+#include "Ghost.h" 
+typedef geom2d::Vector<int> Position;
+
+Position towards_target (Position me, Position target) {
+    Position offset = target - me;
+    Position result = { 0, 0 };
+    if (offset.get_x() != 0) {
+        result += { (offset.get_x() > 0) ? 1 : -1, 0 };
+    }
+    if (offset.get_y() != 0) {
+        result += { 0, (offset.get_y() > 0) ? 1 : -1 };
+    }
+    return result;
+}
 
 using namespace packman;
 
@@ -17,22 +30,15 @@ void Ghost::handle_event (GUI::Draw_event& draw_event) {
 }
 
 void Ghost::handle_event (gamelogic::Next_turn_event& next_turn_event) {
-    geom2d::Vector<int> offset (0, 0);
-    if (get_position().get_x() > target_position.get_x()) {
-        offset += {-1, 0};
-    } else if (get_position().get_x() < target_position.get_x()) {
-        offset += {1, 0};
+    Position move_offset = { 0, 0 };   
+    if (std::rand() % 2) {
+        move_offset = towards_target(get_position(), target_position);
+    } else {
+        move_offset = { (std::rand() % 3) - 1, (std::rand() % 3) - 1 };
     }
-    if (get_position().get_y() > target_position.get_y()) {
-        offset += {0, -1};
-    } else if (get_position().get_y() < target_position.get_y()) {
-        offset += {0, 1};
-    }
-    if (offset != geom2d::Vector<int> (0, 0)) {
-        geom2d::Vector<int> new_position = get_position() + offset;
-        gamelogic::Actor_movement_event move (this, new_position);
-        next_turn_event.get_movement_listener()->handle_event(move);
-    }
+    Position new_position = get_position() + move_offset;
+    gamelogic::Actor_movement_event move (this, new_position);
+    next_turn_event.get_movement_listener()->handle_event(move);
 }
 
 void Ghost::handle_event (gamelogic::Powerup_event& powerup_event) {

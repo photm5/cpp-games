@@ -8,26 +8,26 @@
 #include <SFML/Graphics.hpp>
 
 #include "library/events/inc/Emitter.h"
-#include "library/events/inc/Listener.h"
+#include "library/events/inc/Forwarder.h"
 
 #include "Draw_event.h"
 
 namespace GUI {
 
-    class Window : public events::Emitter<sf::Event>, events::Emitter<Draw_event> {
+    class Window {
         public:
             Window (sf::RenderWindow& window);
 
             void event_loop ();
 
-            void set_output (events::Listener<sf::Event>* sfml_event_listener);
-            void set_output (events::Listener<Draw_event>* draw_event_listener);
+            events::Emitter<sf::Event>* get_sfml_emitter ();
+            events::Emitter<Draw_event>* get_draw_emitter ();
 
         private:
             sf::RenderWindow& window;
 
-            events::Listener<sf::Event>* sfml_event_listener;
-            events::Listener<Draw_event>* draw_event_listener;
+            events::Forwarder<sf::Event> sfml_event_forwarder;
+            events::Forwarder<Draw_event> draw_event_forwarder;
 
     };
 

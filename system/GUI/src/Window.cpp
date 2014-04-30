@@ -3,8 +3,6 @@
 using namespace GUI;
 
 Window::Window (sf::RenderWindow& window) : window(window) {
-    sfml_event_listener = nullptr;
-    draw_event_listener = nullptr;
 }
 
 void Window::event_loop () {
@@ -15,21 +13,21 @@ void Window::event_loop () {
                 window.close();
             }
             else {
-                sfml_event_listener->handle_event(event);
+                sfml_event_forwarder.handle_event(event);
             }
         }
 
         window.clear(sf::Color::Black);
         Draw_event draw_event = Draw_event(window);
-        draw_event_listener->handle_event(draw_event);
+        draw_event_forwarder.handle_event(draw_event);
         window.display();
     }
 }
 
-void Window::set_output (events::Listener<sf::Event>* sfml_event_listener) {
-    this->sfml_event_listener = sfml_event_listener;
+events::Emitter<sf::Event>* Window::get_sfml_emitter () {
+    return &sfml_event_forwarder;
 }
 
-void Window::set_output (events::Listener<Draw_event>* draw_event_listener) {
-    this->draw_event_listener = draw_event_listener;
+events::Emitter<Draw_event>* Window::get_draw_emitter () {
+    return &draw_event_forwarder;
 }

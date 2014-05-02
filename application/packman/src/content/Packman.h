@@ -19,8 +19,22 @@
 #include "library/geom2d/inc/Vector.h"
 
 #include "library/events/inc/Listener.h"
+#include "library/events/inc/Forwarder.h"
+#include "library/events/inc/Emitter.h"
 
 namespace packman {
+
+    class Packman;
+
+    struct Score_change_event {
+        int new_score;
+        Packman* packman;
+    };
+
+    struct Eattimer_change_event {
+        int new_time;
+        Packman* packman;
+    };
 
     class Packman : public gamelogic::Actor, public events::Listener<GUI::Draw_event> {
         public:
@@ -34,12 +48,18 @@ namespace packman {
             void handle_event (gamelogic::Actor_movement_event& movement_event);
             void handle_event (gamelogic::Actor_collision_event& collision_event);
 
+            events::Emitter<Score_change_event>* get_score_emitter ();
+            events::Emitter<Eattimer_change_event>* get_eattimer_emitter ();
+
             bool has_property (std::string property_name);
             int get_property (std::string property_name);
 
         private:
             gamelogic::World* world;
             sf::Sprite sprite;
+
+            events::Forwarder<Score_change_event> score_forwarder;
+            events::Forwarder<Eattimer_change_event> eattimer_forwarder;
 
             int score;
             int eat_ghosts;

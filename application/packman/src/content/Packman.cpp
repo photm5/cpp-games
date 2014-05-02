@@ -21,6 +21,8 @@ void Packman::handle_event (GUI::Draw_event& draw_event) {
 void Packman::handle_event (gamelogic::Next_turn_event& next_turn_event) {
     if (eat_ghosts > 0) {
         --eat_ghosts;
+        Eattimer_change_event e { eat_ghosts, this };
+        eattimer_forwarder.handle_event(e);
     }
 
     geom2d::Vector<int> offset (0, 0);
@@ -43,12 +45,15 @@ void Packman::handle_event (gamelogic::Next_turn_event& next_turn_event) {
 
 void Packman::handle_event (gamelogic::Powerup_event& powerup_event) {
     if (powerup_event.get_actor() == this) {
-        std::cout << "powerup!!" << std::endl;
         if (powerup_event.get_powerup()->has_property("score")) {
             score += powerup_event.get_powerup()->get_property("score");
+            Score_change_event s { score, this };
+            score_forwarder.handle_event(s);
         }
         if (powerup_event.get_powerup()->has_property("eat ghost")) {
             eat_ghosts += powerup_event.get_powerup()->get_property("eat ghost");
+            Eattimer_change_event e { eat_ghosts, this };
+            eattimer_forwarder.handle_event(e);
         }
     }
 }
@@ -64,11 +69,23 @@ void Packman::handle_event (gamelogic::Actor_collision_event& collision_event) {
     if (is_ghost_me_collision(collision_event)) {
         if (has_property("eat ghost")) {
             score += 50;
+            Score_change_event s { score, this };
+            score_forwarder.handle_event(s);
         } else {
             world->kill_actor(this);
             dead = true;
         }
     }
+}
+
+// event services / emitters
+
+events::Emitter<Score_change_event>* Packman::get_score_emitter () {
+    return &score_forwarder;
+}
+
+events::Emitter<Eattimer_change_event>* Packman::get_eattimer_emitter () {
+    return &eattimer_forwarder;
 }
 
 // properties

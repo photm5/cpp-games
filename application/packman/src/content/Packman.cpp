@@ -26,14 +26,14 @@ void Packman::handle_event (gamelogic::Next_turn_event& next_turn_event) {
     }
 
     geom2d::Vector<int> offset (0, 0);
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::H)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         offset += { -1, 0 };
-    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::L)) {
+    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         offset += { 1, 0 };
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::J)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
         offset += { 0, 1 };
-    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::K)) {
+    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
         offset += { 0, -1 };
     }
     if (offset != geom2d::Vector<int> (0,0)) {

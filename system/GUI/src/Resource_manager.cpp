@@ -2,8 +2,8 @@
 
 using namespace GUI;
 
-Resource_manager::Resource_manager (std::string graphics_path, std::string graphics_extension)
-: graphics_path(graphics_path), graphics_extension(graphics_extension) {
+Resource_manager::Resource_manager (std::string resources_path, std::string graphics_extension)
+: resources_path(resources_path), graphics_extension(graphics_extension), fonts_extension(".ttf") {
 }
 
 sf::Texture& Resource_manager::get_texture ( std::string name ) {
@@ -20,11 +20,30 @@ sf::Texture& Resource_manager::get_texture ( std::string name ) {
     return textures.at(name);
 }
 
+sf::Font& Resource_manager::get_font ( std::string name ) {
+    if (fonts.find(name) != fonts.end())
+        return fonts.at(name);
+    std::string path = construct_font_path(name);
+    std::cout << "Loading font " << name << " from " << path << std::endl;
+
+    sf::Font font;
+    if (!font.loadFromFile(path)) {
+        throw;
+    }
+    fonts.insert(std::make_pair(name, font));
+    return fonts.at(name);
+}
 
 std::string Resource_manager::construct_image_path ( std::string name ) {
-    std::string path = graphics_path;
+    std::string path = resources_path;
     std::replace_copy(name.begin(), name.end(), std::back_inserter(path), '.', '/');
     path.append(graphics_extension);
     return path;
 }
 
+std::string Resource_manager::construct_font_path ( std::string name ) {
+    std::string path = resources_path;
+    std::replace_copy(name.begin(), name.end(), std::back_inserter(path), '.', '/');
+    path.append(fonts_extension);
+    return path;
+}

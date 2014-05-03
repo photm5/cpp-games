@@ -15,7 +15,7 @@ later.
 
 Download it by running
 
-    $ git clone --depth 1 github.com/shak-mar/cpp-games
+    $ git clone --depth 1 https://github.com/shak-mar/cpp-games
 
 You need to create some missing folders, git doesn't store them because they are
 empty. You can do it with my build setup:

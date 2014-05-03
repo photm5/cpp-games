@@ -2,6 +2,7 @@
 #define GUARD_EVENT_BROADCASTER
 
 #include <vector>
+#include <queue>
 #include <algorithm>
 
 #include "Listener.h"
@@ -20,6 +21,9 @@ namespace events {
 
         protected:
             std::vector<Listener<Event_type>*> subscriptions;
+            std::queue<const Listener<Event_type>*> de_subscriptions;
+            bool lock_subscriptions = false;
+
     };
 
     template < typename T >
@@ -29,13 +33,23 @@ namespace events {
 
     template < typename T >
     void Broadcaster<T>::de_subscribe (const Listener<T>* listener) {
-        subscriptions.erase(std::remove(subscriptions.begin(), subscriptions.end(), listener), subscriptions.end());
+        if (!lock_subscriptions) {
+            subscriptions.erase(std::remove(subscriptions.begin(), subscriptions.end(), listener), subscriptions.end());
+        } else {
+            de_subscriptions.push(listener);
+        }
     }
 
     template < typename T >
     void Broadcaster<T>::handle_event (T& event) {
+        lock_subscriptions = true;
         std::for_each(subscriptions.begin(), subscriptions.end(),
                 [&](Listener<T>* listener) { listener->handle_event(event); });
+        lock_subscriptions = false;
+        while (!de_subscriptions.empty()) {
+            de_subscribe(de_subscriptions.front());
+            de_subscriptions.pop();
+        }
     }
 
 }

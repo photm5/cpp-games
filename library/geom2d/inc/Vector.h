@@ -1,6 +1,8 @@
 #ifndef GUARD_GEOM2D_VECTOR
 #define GUARD_GEOM2D_VECTOR
 
+#include <ostream>
+
 namespace geom2d {
 
     template<typename T>
@@ -80,6 +82,12 @@ namespace geom2d {
     void Vector<T>::operator*= (const Vector<T>& other) {
         x *= other.get_x();
         y *= other.get_y();
+    }
+
+    template<typename T>
+    std::ostream& operator<< (std::ostream& stream, const Vector<T>& vector) {
+        stream << "(" << vector.get_x() << "," << vector.get_y() << ")";
+        return stream;
     }
 
 }

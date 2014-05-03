@@ -29,7 +29,7 @@ void Level::reset() {
     std::vector<std::function<void(gamelogic::World&)>> entities;
 
     std::string line;
-    for (int y = 0; std::getline(file, line); ++y) {
+    for (int y = 1; std::getline(file, line); ++y) {
         for (int x = 0; x < line.size(); ++x) {
             char tile_descriptor = line.at(x);
             switch (tile_descriptor) {

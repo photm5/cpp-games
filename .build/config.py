@@ -31,7 +31,6 @@ ADD_OWN_INCLUDEPATH = True
 #     ]
 # }
 DEPENDENCIES = {
-    APPLICATION_FOLDER / "sfml" : [],
     APPLICATION_FOLDER / "packman" : [
         SYSTEM_FOLDER / "gamelogic",
         SYSTEM_FOLDER / "GUI",
@@ -50,7 +49,6 @@ DEPENDENCIES = {
 }
 
 CUSTOM_OPTIONS = {
-    APPLICATION_FOLDER / "sfml" : "-lsfml-graphics -lsfml-window -lsfml-system",
     APPLICATION_FOLDER / "packman" : "-lsfml-graphics -lsfml-window -lsfml-system"
 }
 

@@ -21,8 +21,8 @@ namespace gamelogic {
             geom2d::Vector<int> get_position () const;
             void set_position (geom2d::Vector<int> position);
 
-            virtual bool has_property (std::string property_name);
-            virtual int get_property (std::string property_name);
+            virtual bool has_property (std::string property_name) const;
+            virtual int get_property (std::string property_name) const;
 
         protected:
             geom2d::Vector<int> position;

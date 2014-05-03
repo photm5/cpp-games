@@ -17,10 +17,10 @@ void Entity::set_position(geom2d::Vector<int> pos) {
     position = pos;
 }
 
-bool Entity::has_property (std::string property_name) {
+bool Entity::has_property (std::string property_name) const {
     return false;
 }
 
-int Entity::get_property (std::string property_name) {
+int Entity::get_property (std::string property_name) const {
     return 0;
 }

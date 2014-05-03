@@ -2,6 +2,7 @@
 #define GUARD_EVENTS_SHARED_BROADCASTER
 
 #include <vector>
+#include <queue>
 #include <algorithm>
 #include <memory>
 
@@ -21,6 +22,8 @@ namespace events {
 
         protected:
             std::vector<std::shared_ptr<Listener<Event_type>>> subscriptions;
+            std::queue<const Listener<Event_type>*> de_subscriptions;
+            bool lock_subscriptions = false;
     };
 
     template < typename T >
@@ -30,16 +33,26 @@ namespace events {
 
     template < typename T >
     void Shared_broadcaster<T>::de_subscribe (const Listener<T>* listener) {
-        subscriptions.erase(std::remove_if(subscriptions.begin(), subscriptions.end(),
-                    [&](std::shared_ptr<Listener<T>> l) {
-                    return l.get() == listener;
-                    }), subscriptions.end());
+        if (!lock_subscriptions) {
+            subscriptions.erase(std::remove_if(subscriptions.begin(), subscriptions.end(),
+                        [&](std::shared_ptr<Listener<T>> l) {
+                        return l.get() == listener;
+                        }), subscriptions.end());
+        } else {
+            de_subscriptions.push(listener);
+        }
     }
 
     template < typename T >
     void Shared_broadcaster<T>::handle_event (T& event) {
+        lock_subscriptions = true;
         std::for_each(subscriptions.begin(), subscriptions.end(),
                 [&](std::shared_ptr<Listener<T>> listener) { listener->handle_event(event); });
+        lock_subscriptions = false;
+        while (!de_subscriptions.empty()) {
+            de_subscribe(de_subscriptions.front());
+            de_subscriptions.pop();
+        }
     }
 
 }

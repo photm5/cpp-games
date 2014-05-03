@@ -51,8 +51,8 @@ namespace packman {
             events::Emitter<Score_change_event>* get_score_emitter ();
             events::Emitter<Eattimer_change_event>* get_eattimer_emitter ();
 
-            bool has_property (std::string property_name);
-            int get_property (std::string property_name);
+            bool has_property (std::string property_name) const;
+            int get_property (std::string property_name) const;
 
         private:
             gamelogic::World* world;

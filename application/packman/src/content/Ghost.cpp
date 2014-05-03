@@ -60,7 +60,7 @@ void Ghost::handle_event (gamelogic::Actor_collision_event& collision_event) {
     }
 }
 
-bool Ghost::has_property (std::string property_name) {
+bool Ghost::has_property (std::string property_name) const {
     if (property_name == "eat packman")
         return true;
     if (property_name == "actor.ghost")
@@ -68,7 +68,7 @@ bool Ghost::has_property (std::string property_name) {
     return false;
 }
 
-int Ghost::get_property (std::string property_name) {
+int Ghost::get_property (std::string property_name) const {
     return 0;
 }
 

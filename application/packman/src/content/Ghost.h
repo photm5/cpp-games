@@ -28,8 +28,8 @@ namespace packman {
             void handle_event (gamelogic::Actor_movement_event& movement_event);
             void handle_event (gamelogic::Actor_collision_event& collision_event);
 
-            bool has_property (std::string property_name);
-            int get_property (std::string property_name);
+            bool has_property (std::string property_name) const;
+            int get_property (std::string property_name) const;
 
         private:
             sf::Sprite sprite;

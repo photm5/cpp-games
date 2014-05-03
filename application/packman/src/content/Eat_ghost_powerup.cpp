@@ -24,7 +24,7 @@ void Eat_ghost_powerup::handle_event (gamelogic::Powerup_event& powerup_event) {
     }
 }
 
-bool Eat_ghost_powerup::has_property (std::string property_name) {
+bool Eat_ghost_powerup::has_property (std::string property_name) const {
     if (property_name == "powerup.eat-ghost")
         return true;
     if (property_name == "eat ghost")
@@ -34,7 +34,7 @@ bool Eat_ghost_powerup::has_property (std::string property_name) {
     return false;
 }
 
-int Eat_ghost_powerup::get_property (std::string property_name) {
+int Eat_ghost_powerup::get_property (std::string property_name) const {
     if (property_name == "eat ghost")
         return 50;
     return 0;

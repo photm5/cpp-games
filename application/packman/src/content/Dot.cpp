@@ -24,7 +24,7 @@ void Dot::handle_event (gamelogic::Powerup_event& powerup_event) {
     }
 }
 
-bool Dot::has_property (std::string property_name) {
+bool Dot::has_property (std::string property_name) const {
     if (property_name == "powerup.dot")
         return true;
     if (property_name == "score")
@@ -34,7 +34,7 @@ bool Dot::has_property (std::string property_name) {
     return false;
 }
 
-int Dot::get_property (std::string property_name) {
+int Dot::get_property (std::string property_name) const {
     if (property_name == "score")
         return 1;
     return 0;

@@ -90,7 +90,7 @@ events::Emitter<Eattimer_change_event>* Packman::get_eattimer_emitter () {
 
 // properties
 
-bool Packman::has_property (std::string property_name) {
+bool Packman::has_property (std::string property_name) const {
     if (property_name == "score")
         return true;
     if (property_name == "actor.packman")
@@ -100,7 +100,7 @@ bool Packman::has_property (std::string property_name) {
     return false;
 }
 
-int Packman::get_property (std::string property_name) {
+int Packman::get_property (std::string property_name) const {
     if (property_name == "score")
         return score;
     return 0;

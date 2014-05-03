@@ -4,7 +4,7 @@
 
 This Repository uses [my c++ project template][cpp-template]
 
-[cpp-template]: github.com/shak-mar/cpp-template
+[cpp-template]: https://github.com/shak-mar/cpp-template
 
 ## Packman
 

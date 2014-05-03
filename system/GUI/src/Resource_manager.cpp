@@ -14,6 +14,10 @@ sf::Texture& Resource_manager::get_texture ( std::string name ) {
 
     sf::Texture texture;
     if (!texture.loadFromFile(path)) {
+        if (name != "placeholder.yellow") {
+            std::cout << "[FAILED] to load texture " << name << ", using placeholder.yellow instead." << std::endl;
+            return get_texture("placeholder.yellow");
+        }
         throw;
     }
     textures.insert(std::make_pair(name, texture));

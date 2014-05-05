@@ -104,6 +104,9 @@ class Component:
         return False
 
     def make (self):
+        binary_folder = self.root_folder / BINARY_FOLDER
+        if not binary_folder.exists():
+            run_command("mkdir " + str(binary_folder))
         for dependency in self.dependencies:
             if dependency.check_mustbemade():
                 dependency.make()

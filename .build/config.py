@@ -24,11 +24,12 @@ ADD_OWN_INCLUDEPATH = True
 # DEPENDENCIES = {
 #     APPLICATION_FOLDER / "game" : [
 #         SYSTEM_FOLDER / "engine",
-#         LIBRARY_FOLDER / "events"
+#         LIBRARY_FOLDER / "geometry"
 #     ],
 #     SYSTEM_FOLDER / "game" : [
-#         LIBRARY_FOLDER / "events"
-#     ]
+#         LIBRARY_FOLDER / "geometry"
+#     ],
+#     LIBRARY_FOLDER / "geometry" : []
 # }
 DEPENDENCIES = {
     APPLICATION_FOLDER / "packman" : [

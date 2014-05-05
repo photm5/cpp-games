@@ -31,8 +31,7 @@ namespace packman {
             std::shared_ptr<gamelogic::World> get_world ();
             events::Shared_broadcaster<GUI::Draw_event> get_draw_broadcaster ();
 
-            events::Emitter<Score_change_event>* get_scorechange_emitter ();
-            events::Emitter<Eattimer_change_event>* get_eattimer_emitter ();
+            Packman* get_player ();
 
         private:
             std::string name;
@@ -41,8 +40,7 @@ namespace packman {
             events::Shared_broadcaster<GUI::Draw_event> draw_broadcaster;
             GUI::Resource_manager* resource_manager;
 
-            events::Emitter<Score_change_event>* score_emitter;
-            events::Emitter<Eattimer_change_event>* eattimer_emitter;
+            Packman* player;
 
     };
 

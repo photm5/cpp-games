@@ -47,8 +47,7 @@ void Level::reset() {
                                 Packman* packman = new Packman(geom2d::Vector<int> (x, y), *resource_manager, &world);
                                 world.spawn_actor(packman);
                                 draw_broadcaster.subscribe(packman);
-                                score_emitter = packman->get_score_emitter();
-                                eattimer_emitter = packman->get_eattimer_emitter();
+                                player = packman;
                                 });
                     }
                     break;
@@ -118,11 +117,7 @@ events::Shared_broadcaster<GUI::Draw_event> Level::get_draw_broadcaster () {
     return draw_broadcaster;
 }
 
-events::Emitter<Score_change_event>* Level::get_scorechange_emitter () {
-    return score_emitter;
-}
-
-events::Emitter<Eattimer_change_event>* Level::get_eattimer_emitter () {
-    return eattimer_emitter;
+Packman* Level::get_player () {
+    return player;
 }
 

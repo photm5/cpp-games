@@ -35,8 +35,8 @@ void Play_state::begin () {
     world = level.get_world();
     draw_broadcaster = level.get_draw_broadcaster();
 
-    level.get_scorechange_emitter()->set_output(&score_listener);
-    level.get_eattimer_emitter()->set_output(&eattimer_listener);
+    level.get_player()->get_score_emitter()->set_output(&score_listener);
+    level.get_player()->get_eattimer_emitter()->set_output(&eattimer_listener);
 }
 
 void Play_state::end () {

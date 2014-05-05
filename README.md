@@ -17,13 +17,6 @@ Download it by running
 
     git clone --depth 1 https://github.com/shak-mar/cpp-games
 
-You need to create some missing folders, git doesn't store them because they are
-empty. You can do it with my build setup:
-
-    python build.py @create_application packman
-    python build.py @create_system gamelogic
-    python build.py @create_system GUI
-
 Build and run it with my build setup:
 
     python build.py @build_and_run packman

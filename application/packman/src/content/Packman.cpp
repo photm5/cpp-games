@@ -25,17 +25,7 @@ void Packman::handle_event (gamelogic::Next_turn_event& next_turn_event) {
         eattimer_forwarder.handle_event(e);
     }
 
-    geom2d::Vector<int> offset (0, 0);
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-        offset += { -1, 0 };
-    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-        offset += { 1, 0 };
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-        offset += { 0, 1 };
-    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-        offset += { 0, -1 };
-    }
+    geom2d::Vector<int> offset = key_handler.offset;
     if (offset != geom2d::Vector<int> (0,0)) {
         geom2d::Vector<int> new_position = get_position() + offset;
         gamelogic::Actor_movement_event move (this, new_position);
@@ -86,6 +76,10 @@ events::Emitter<Score_change_event>* Packman::get_score_emitter () {
 
 events::Emitter<Eattimer_change_event>* Packman::get_eattimer_emitter () {
     return &eattimer_forwarder;
+}
+
+events::Listener<sf::Event>* Packman::get_key_listener () {
+    return &key_handler;
 }
 
 // properties

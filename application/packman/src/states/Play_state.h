@@ -83,6 +83,8 @@ namespace packman {
 
             Score_display score_listener;
             Eattimer_display eattimer_listener;
+            events::Listener<sf::Event>* key_event_listener;
+
 
     };
 

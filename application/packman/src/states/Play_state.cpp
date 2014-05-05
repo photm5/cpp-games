@@ -11,6 +11,11 @@ Play_state::Play_state (events::Listener<std::shared_ptr<Game_state>>* next_stat
 }
 
 void Play_state::handle_event (sf::Event& sfml_event) {
+    switch (sfml_event.type) {
+        case sf::Event::KeyPressed:
+        case sf::Event::KeyReleased:
+            key_event_listener->handle_event(sfml_event);
+    }
     if (sfml_event.type == sf::Event::KeyPressed) {
         switch (sfml_event.key.code) {
             case sf::Keyboard::W:
@@ -37,6 +42,7 @@ void Play_state::begin () {
 
     level.get_player()->get_score_emitter()->set_output(&score_listener);
     level.get_player()->get_eattimer_emitter()->set_output(&eattimer_listener);
+    key_event_listener = level.get_player()->get_key_listener();
 }
 
 void Play_state::end () {

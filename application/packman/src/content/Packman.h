@@ -36,6 +36,35 @@ namespace packman {
         Packman* packman;
     };
 
+    struct Key_event_handler : events::Listener<sf::Event> {
+        geom2d::Vector<int> offset = { 0, 0 };
+
+        void handle_event (sf::Event& sfml_event) {
+            geom2d::Vector<int> dir = { 0, 0 };
+            switch (sfml_event.key.code) {
+                case sf::Keyboard::W:
+                    dir += { 0, -1 };
+                    break;
+                case sf::Keyboard::A:
+                    dir += { -1, 0 };
+                    break;
+                case sf::Keyboard::S:
+                    dir += { 0, 1 };
+                    break;
+                case sf::Keyboard::D:
+                    dir += { 1, 0 };
+                    break;
+            }
+            if (sfml_event.type == sf::Event::KeyReleased)
+                dir *= { -1, -1 };
+            else if (sfml_event.type != sf::Event::KeyPressed)
+                return;
+            using std::max;
+            using std::min;
+            offset = { min(1, max(-1, offset.get_x() + dir.get_x())), min(1, max(-1, offset.get_y() + dir.get_y())) };
+        };
+    };
+
     class Packman : public gamelogic::Actor, public events::Listener<GUI::Draw_event> {
         public:
             Packman (geom2d::Vector<int> position, GUI::Resource_manager& resource_manager, gamelogic::World* world);
@@ -50,6 +79,7 @@ namespace packman {
 
             events::Emitter<Score_change_event>* get_score_emitter ();
             events::Emitter<Eattimer_change_event>* get_eattimer_emitter ();
+            events::Listener<sf::Event>* get_key_listener ();
 
             bool has_property (std::string property_name) const;
             int get_property (std::string property_name) const;
@@ -57,6 +87,7 @@ namespace packman {
         private:
             gamelogic::World* world;
             sf::Sprite sprite;
+            Key_event_handler key_handler;
 
             events::Forwarder<Score_change_event> score_forwarder;
             events::Forwarder<Eattimer_change_event> eattimer_forwarder;

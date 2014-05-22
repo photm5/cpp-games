@@ -23,3 +23,7 @@ Build and run it with my build setup:
 
 You will end up in a splashscreen (currently a 16x16 yellow placeholder :D),
 press space to continue into the actual game.
+
+The level you will end up in is not that impressive and fun at all. If you want
+to have some fun, you can edit application/packman/res/levels/example.txt. You
+may open pull requests if you have built levels that are fun.

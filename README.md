@@ -19,7 +19,7 @@ Download it by running
 
 Build and run it with my build setup:
 
-    python build.py @build_and_run packman
+    ./build.py @build_and_run packman
 
 You will end up in a splashscreen (currently a 16x16 yellow placeholder :D),
 press space to continue into the actual game.

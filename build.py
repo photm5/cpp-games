@@ -1,3 +1,5 @@
+#!/bin/env python3
+
 ########## imports ##########
 
 import sys
@@ -177,7 +179,7 @@ def make_run_from_argv ():
     try:
         component_name = sys.argv[2]
     except IndexError:
-        print("This special target needs an extra argument: the name of the component to create.")
+        print("This special target needs an extra argument: the name of the component to build an run.")
         sys.exit(2)
     make_application(component_name)
     run_application(component_name)
@@ -186,7 +188,7 @@ def run_from_argv ():
     try:
         component_name = sys.argv[2]
     except IndexError:
-        print("This special target needs an extra argument: the name of the component to create.")
+        print("This special target needs an extra argument: the name of the component to run.")
         sys.exit(2)
     run_application(component_name)
 

@@ -7,12 +7,6 @@ repository][new-packman].
 
 [new-packman]: https://github.com/firecoders/packman
 
-## template
-
-This Repository uses [my c++ project template][cpp-template]
-
-[cpp-template]: https://github.com/shak-mar/cpp-template
-
 ## history
 
 I started this repository with nothing particular in mind, I just wanted to play
